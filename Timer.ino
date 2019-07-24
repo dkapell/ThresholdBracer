@@ -85,7 +85,7 @@ void timerOff(void){
 
 // Run the timer
 void timerLoop(void){
-  if (millisRemaining >= 0){
+  if (millisRemaining > 0){
     if (timerRunning){
       long now = millis();
       millisRemaining -= (now - timerLast);
@@ -104,7 +104,7 @@ void timerLoop(void){
     }  
     if (oldSeconds != seconds && timerDisplay) {
       displayTime(millisRemaining);
-       displayRing(millisRemaining, millisStarted);
+      displayRing(millisRemaining, millisStarted);
       //printTime(millisRemaining);
     } 
     oldSeconds = seconds;
@@ -112,6 +112,8 @@ void timerLoop(void){
     if(timerDisplay && !timerRunning && millisRemaining > 0){
       blinkColon();
     }
+  } else {
+    ringIdle(); 
   }
 }
 

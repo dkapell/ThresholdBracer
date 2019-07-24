@@ -39,7 +39,7 @@ void countdown(void){
       timerStart();
     } else if (isPressed(7)){
       stance = !stance;
-      setColor(stance);
+      setMode(stance);
     }
   }
 }

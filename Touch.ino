@@ -1,4 +1,3 @@
-// You can have up to 4 on one i2c bus but one is enough for testing!
 Adafruit_MPR121 cap = Adafruit_MPR121();
 
 // Keeps track of the last pins touched
@@ -6,8 +5,8 @@ Adafruit_MPR121 cap = Adafruit_MPR121();
 uint16_t lasttouched = 0;
 uint16_t currtouched = 0;
 
-boolean touched[12];
-boolean pressed[12];
+boolean touched[12]; // Keeps track of if pad is currently touched
+boolean pressed[12]; // Keeps track of if pad has been touched, cleared after check.
 
 void touchSetup(void){
   cap.begin(0x5A);
@@ -16,12 +15,12 @@ void touchSetup(void){
 void touchLoop(void){
   currtouched = cap.touched();
   for (uint8_t i=0; i<12; i++) {
-    // it if *is* touched and *wasnt* touched before, alert!
+    // it if *is* touched and *wasnt* touched before, record
     if ((currtouched & _BV(i)) && !(lasttouched & _BV(i)) ) {
       touched[i] = true;
       pressed[i] = true;      
     }
-    // if it *was* touched and now *isnt*, alert!
+    // if it *was* touched and now *isnt*, record
     if (!(currtouched & _BV(i)) && (lasttouched & _BV(i)) ) {
       touched[i] = false;
       pressed[i] = false;
